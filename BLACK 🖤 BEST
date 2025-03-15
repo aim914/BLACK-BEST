@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🥀⏤͟͟͞͞ ᵀᵉᵃᵐ俄 X ʙʀᴏᴛʜᴇʀs࿐OWNER𖤍..᭄ 🥀</title>
+    <style>
+        body {
+            background-color: black;
+            color: #00FF00; /* Bright Green */
+            font-family: monospace;
+            padding: 20px;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+            font-weight: bold;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        a {
+            color: #FFD700; /* Gold */
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            color: white;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #00FF00;
+        }
+
+        th {
+            background-color: #00FF00;
+            color: black;
+        }
+
+        #allResults {
+            margin-top: 30px;
+            padding: 10px;
+            border: 2px solid #00FF00;
+            background-color: #001100;
+            color: #FFD700;
+            height: 300px;
+            overflow-y: auto;
+        }
+
+        #gokuAnimation {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            z-index: 1;
+            width: 200px;
+            opacity: 0.7;
+        }
+
+        #countdown-timer {
+            color: #FF4500; /* OrangeRed */
+            font-size: 20px;
+            margin-top: 10px;
+        }
+
+        #console p {
+            color: #00FF00;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrixRain"></canvas>
+    
+    <!-- Goku GIF Animation -->
+    <img src="https://media.giphy.com/media/26AHONQ79FdWZhAI0/giphy.gif" alt="Goku Animation" id="gokuAnimation">
+
+    <h1 style="color: #FF4500;">🥀⏤͟͟͞͞ ᵀᵉᵃᵐ俄 X ʙʀᴏᴛʜᴇʀs࿐OWNER𖤍..᭄ 🥀</h1>
+    <p>🔹 <b style="color: #00FF00;">CONNECTING, 100% WINNING</b> 🔹</p>
+    <p><a href="" target="_blank"><b>100% WINNING</b></a></p>
+
+    <div id="console"></div>
+    <div id="countdown-timer"></div>
+    <div id="history"></div>
+    <div id="allResults"></div>
+
+    <script>
+        const consoleDiv = document.getElementById("console");
+        const countdownDiv = document.getElementById("countdown-timer");
+        const historyDiv = document.getElementById("history");
+        const allResultsDiv = document.getElementById("allResults");
+
+        let history = [];
+        let allResults = [];
+        let lastGeneratedMinute = null;
+
+        function displayHistory() {
+            historyDiv.innerHTML = `
+                <h2><b>Recent History of Results</b></h2>
+                <table>
+                    <tr>
+                        <th>PERIOD</th>
+                        <th>RESULT</th>
+                    </tr>
+                    ${history.map(item => 
+                        `<tr>
+                            <td>${item.period}</td>
+                            <td style="color: ${item.result.includes("SMALL") ? '#00BFFF' : '#FF0000'};">${item.result}</td>
+                        </tr>`
+                    ).join("")}
+                </table>
+            `;
+        }
+
+        function displayAllResults() {
+            allResultsDiv.innerHTML = `
+                <h2><b>All Results</b></h2>
+                <div>
+                    ${allResults.map(item => 
+                        `<div style="color: ${item.result.includes("SMALL") ? '#7CFC00' : '#FF0000'};">
+                            <b>PERIOD:</b> ${item.period} | <b>RESULT:</b> ${item.result}
+                        </div>`
+                    ).join("<br>")}
+                </div>
+            `;
+        }
+
+        async function displayPeriodAndTimer() {
+            let remainingSeconds = 59;
+
+            while (true) {
+                const now = new Date();
+                const currentMinute = now.getMinutes();
+
+                if (currentMinute !== lastGeneratedMinute) {  
+                    lastGeneratedMinute = currentMinute;
+
+                    const totalMinutes = now.getUTCHours() * 60 + now.getUTCMinutes();
+                    
+                    const randomNumber = Math.floor(Math.random() * 10);
+                    const currentPattern = randomNumber <= 4 ? "SMALL" : "BIG";
+                    const period1m = now.toISOString().slice(0, 10).replace(/-/g, "") + "1000" + String(10001 + totalMinutes);
+                    const resultText = `<b>${currentPattern} (${randomNumber})</b>`;
+
+                    history.unshift({ period: period1m, result: resultText });
+                    allResults.unshift({ period: period1m, result: resultText });
+
+                    if (history.length > 5) history.pop();
+
+                    consoleDiv.innerHTML = `<p><b>✅ YOU ARE CONNECTED TO 🥀⏤͟͟͞͞ ᵀᵉᵃᵐ俄 X ʙʀᴏᴛʜᴇʀs࿐OWNER𖤍..᭄ 🥀 SERVER SUCCESSFUL ✅</b></p>`;
+                    consoleDiv.innerHTML += `<p><b>PERIOD:</b> ${period1m} | <b>RESULT:</b> ${resultText}</p>`;
+
+                    displayHistory();
+                    displayAllResults();
+
+                    remainingSeconds = 59;
+                }
+
+                countdownDiv.innerHTML = `<b>[Countdown Timer] TIMER: ${(" " + Math.floor(remainingSeconds / 60)).slice(-2)} : ${("0" + (remainingSeconds % 60)).slice(-2)}</b>`;
+                remainingSeconds--;
+
+                if (remainingSeconds < 0) remainingSeconds = 59;
+
+                await new Promise(resolve => setTimeout(resolve, 1000));
+            }
+        }
+
+        displayPeriodAndTimer();
+
+        // ============ MATRIX RAIN ANIMATION ============
+        const canvas = document.getElementById('matrixRain');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = Array.from({ length: columns }).fill(1);
+
+        function draw() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#00FF00';
+            ctx.font = `${fontSize}px monospace`;
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters.charAt(Math.floor(Math.random() * letters.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+
+        setInterval(draw, 50);
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
